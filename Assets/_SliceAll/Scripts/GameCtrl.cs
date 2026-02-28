@@ -7,6 +7,12 @@ public class GameCtrl : MonoBehaviour
 {
     public static GameCtrl I;
 
+    public enum GameState
+    {
+        NONE,
+        PLAYING,
+    }
+
     GameState curState;
 
     private void Awake()
@@ -30,10 +36,6 @@ public class GameCtrl : MonoBehaviour
         ChangeState(GameState.NONE);
         Debug.Log("Welcome 2026");
     }
-    public enum GameState
-    {
-        NONE,
-        PLAYING,
-    }
+    
 }
 
