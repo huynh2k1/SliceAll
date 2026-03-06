@@ -2,17 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class UISetting : MonoBehaviour
+public class UISetting : BasePopup
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public override UIType Type => UIType.SETTING;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    
 }

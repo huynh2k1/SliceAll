@@ -38,7 +38,6 @@ public class BtnShoot : MonoBehaviour, IPointerDownHandler
         {
             isDragging = false;
             OnPointerUpAction?.Invoke();
-            player.rotation = Quaternion.Euler(Vector3.zero);
             rotX = 0;
             rotY = 0;
         }

@@ -1,10 +1,20 @@
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UIGame : MonoBehaviour
+public class UIGame : BaseUI
 {
+    public override UIType Type => UIType.GAME;
+    [SerializeField] Button _btnPause;
     [SerializeField] GameObject _cross;
     [SerializeField] Image _btnShoot;
+
+    public static Action OnClickBtnPauseAction;
+
+    private void Awake()
+    {
+        _btnPause.onClick.AddListener(OnBtnPauseClicked);
+    }
 
     private void OnEnable()
     {
@@ -28,5 +38,10 @@ public class UIGame : MonoBehaviour
     {
         _cross.SetActive(true);
         _btnShoot.enabled = false;
+    }
+
+    void OnBtnPauseClicked()
+    {
+        OnClickBtnPauseAction?.Invoke();
     }
 }

@@ -1,18 +1,50 @@
-using System.Collections;
+using NaughtyAttributes;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class BaseUICtrl : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    public BaseUI[] _uis;
+    protected Dictionary<UIType, BaseUI> _dictUIs = new Dictionary<UIType, BaseUI>();
+
+#if UNITY_EDITOR
+    [Button("Load All UI")]
+    public void LoadAllUIs()
     {
-        
+        _uis = GetComponentsInChildren<BaseUI>(true);
+    }
+#endif
+
+
+    protected virtual void Awake()
+    {
+        foreach (BaseUI ui in _uis)
+        {
+            if (_dictUIs.ContainsKey(ui.Type) == false)
+            {
+                _dictUIs.Add(ui.Type, ui);
+            }
+        }
     }
 
-    // Update is called once per frame
-    void Update()
+    public void Show(UIType type)
     {
-        
+        if (_dictUIs.ContainsKey(type) == false)
+        {
+            return;
+        }
+
+        _dictUIs[type].Show();
     }
+
+    public void Hide(UIType type)
+    {
+        if (_dictUIs.ContainsKey(type) == false)
+        {
+            return;
+        }
+
+        _dictUIs[type].Hide();
+    }
+
 }

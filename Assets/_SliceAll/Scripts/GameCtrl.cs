@@ -6,7 +6,7 @@ using UnityEngine;
 public class GameCtrl : MonoBehaviour
 {
     public static GameCtrl I;
-
+    [SerializeField] UICtrl _uiCtrl;
     public enum GameState
     {
         NONE,
@@ -21,9 +21,25 @@ public class GameCtrl : MonoBehaviour
         I = this;
     }
 
+    private void OnEnable()
+    {
+        UIHome.OnClickBtnPlay += OnStartGame;
+        UIHome.OnClickBtnSetting += OnSettingGame;
+
+        UIGame.OnClickBtnPauseAction += OnPauseGame;
+    }
+
+    private void OnDestroy()
+    {
+        UIHome.OnClickBtnPlay -= OnStartGame;
+        UIHome.OnClickBtnSetting -= OnSettingGame;
+
+        UIGame.OnClickBtnPauseAction -= OnPauseGame;
+    }
+
     private void Start()
     {
-        OnInit();   
+        OnInitGame();   
     }
 
     public void ChangeState(GameState newState)
@@ -31,11 +47,50 @@ public class GameCtrl : MonoBehaviour
         curState = newState;    
     }
 
-    public void OnInit()
+    public void OnInitGame()
     {
         ChangeState(GameState.NONE);
-        Debug.Log("Welcome 2026");
+        _uiCtrl.OnInitGame();
     }
     
+    public void OnStartGame()
+    {
+        ChangeState(GameState.PLAYING);
+        _uiCtrl.OnStartGame();
+    }
+
+    public void OnWinGame()
+    {
+        ChangeState(GameState.NONE);
+    }
+
+    public void OnLoseGame()
+    {
+        ChangeState(GameState.NONE);
+
+    }
+
+    public void OnPauseGame()
+    {
+        ChangeState(GameState.NONE);
+
+    }
+
+    public void OnResumeGame()
+    {
+        ChangeState(GameState.NONE);
+
+    }
+
+    public void OnReplayGame()
+    {
+        ChangeState(GameState.NONE);
+
+    }
+
+    public void OnSettingGame()
+    {
+        _uiCtrl.Show(UIType.SETTING);
+    }
 }
 
