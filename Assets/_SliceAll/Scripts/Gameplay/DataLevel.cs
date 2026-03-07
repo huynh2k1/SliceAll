@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [Serializable]
-public class DataLevel : MonoBehaviour
+public class DataLevel
 {
     public List<LevelData> levels = new List<LevelData>();
 }
@@ -28,6 +28,15 @@ public class PlayerData
 public class EnemyData
 {
     public TransformObj Transform;
+    public EnemyType Type;
+}
+
+[Serializable]
+public enum EnemyType
+{
+    E0,
+    E1,
+    E2,
 }
 
 [Serializable]

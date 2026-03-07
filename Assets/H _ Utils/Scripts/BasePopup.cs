@@ -83,11 +83,11 @@ public class BasePopup : BaseUI
     {
         _canvasGroup.DOKill();
         _canvasGroup.interactable = true;
-        _canvasGroup.DOFade(1, timeTween).SetEase(tweenType);
+        _canvasGroup.DOFade(1, timeTween).SetEase(tweenType).SetUpdate(true);
         _mask.raycastTarget = true;
 
         if (_moveEffect)
-            _main.GetComponent<RectTransform>().DOAnchorPosY(0, timeTween).From(new Vector2(0, 500f)).SetEase(tweenType);
+            _main.GetComponent<RectTransform>().DOAnchorPosY(0, timeTween).From(new Vector2(0, 500f)).SetUpdate(true).SetEase(tweenType);
 
         _main.SetActive(true);
     }
@@ -96,9 +96,9 @@ public class BasePopup : BaseUI
     {
         _canvasGroup.DOKill();
         if (_moveEffect)
-            _main.GetComponent<RectTransform>().DOAnchorPosY(500f, timeTween).From(Vector2.zero).SetEase(tweenType);
+            _main.GetComponent<RectTransform>().DOAnchorPosY(500f, timeTween).From(Vector2.zero).SetUpdate(true).SetEase(tweenType);
 
-        _canvasGroup.DOFade(0, timeTween).From(1).SetEase(tweenType).OnComplete(() =>
+        _canvasGroup.DOFade(0, timeTween).From(1).SetUpdate(true).SetEase(tweenType).OnComplete(() =>
         {
             _canvasGroup.interactable = false;
             _mask.raycastTarget = false;

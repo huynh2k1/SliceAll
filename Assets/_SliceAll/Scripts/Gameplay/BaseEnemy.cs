@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class BaseEnemy : MonoBehaviour
 {
+    public EnemyType Type;
     [SerializeField] Animator _animator;
     [SerializeField] Rigidbody[] _rigidbodies;
     [SerializeField] Collider[] _colliders;

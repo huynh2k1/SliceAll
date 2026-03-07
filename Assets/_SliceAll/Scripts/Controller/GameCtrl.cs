@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
@@ -27,6 +28,9 @@ public class GameCtrl : MonoBehaviour
         UIHome.OnClickBtnSetting += OnSettingGame;
 
         UIGame.OnClickBtnPauseAction += OnPauseGame;
+
+        UIPause.OnClickBtnResumeAction += OnResumeGame;
+        UIPause.OnClickBtnHomeAction += OnGameHome;
     }
 
     private void OnDestroy()
@@ -35,6 +39,9 @@ public class GameCtrl : MonoBehaviour
         UIHome.OnClickBtnSetting -= OnSettingGame;
 
         UIGame.OnClickBtnPauseAction -= OnPauseGame;
+
+        UIPause.OnClickBtnResumeAction -= OnResumeGame;
+        UIPause.OnClickBtnHomeAction -= OnGameHome;
     }
 
     private void Start()
@@ -52,11 +59,25 @@ public class GameCtrl : MonoBehaviour
         ChangeState(GameState.NONE);
         _uiCtrl.OnInitGame();
     }
+
+    public void OnGameHome()
+    {
+        Loading(() =>
+        {
+            ChangeState(GameState.NONE);
+            _uiCtrl.OnGameHome();
+        });
+    }
     
     public void OnStartGame()
     {
-        ChangeState(GameState.PLAYING);
-        _uiCtrl.OnStartGame();
+        Loading(() =>
+        {
+            _uiCtrl.OnStartGame();
+        }, () =>
+        {
+            ChangeState(GameState.PLAYING);
+        });
     }
 
     public void OnWinGame()
@@ -73,13 +94,14 @@ public class GameCtrl : MonoBehaviour
     public void OnPauseGame()
     {
         ChangeState(GameState.NONE);
-
+        Time.timeScale = 0;
+        _uiCtrl.OnPauseGame();
     }
 
     public void OnResumeGame()
     {
         ChangeState(GameState.NONE);
-
+        Time.timeScale = 1;
     }
 
     public void OnReplayGame()
@@ -91,6 +113,11 @@ public class GameCtrl : MonoBehaviour
     public void OnSettingGame()
     {
         _uiCtrl.Show(UIType.SETTING);
+    }
+
+    void Loading(Action action1 = default, Action action2 = default)
+    {
+        _uiCtrl.FadeMask(action1, action2);
     }
 }
 
