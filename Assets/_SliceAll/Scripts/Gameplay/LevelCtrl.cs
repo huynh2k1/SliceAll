@@ -1,4 +1,5 @@
 ﻿using NaughtyAttributes;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -12,6 +13,7 @@ public class LevelCtrl : MonoBehaviour
 
     [SerializeField] Transform _playerTransform;
     [SerializeField] BaseEnemy _enemyPrefab;
+    [SerializeField] List<BaseObstacle> obstaclePrefabs;
     [SerializeField] private Transform _mapRoot; // Gán MapTransform trong Inspector    
 
     const string pathSave = "GameConfigs/DataLevel";
@@ -19,10 +21,24 @@ public class LevelCtrl : MonoBehaviour
 
     [SerializeField] TextAsset _data;
 
+    public event Action OnClearEnemyAction;
+    int _enemyAliveCount;
+
+    void OnEnable()
+    {
+        BaseEnemy.OnEnemyDeadAction += RemoveEnemy;
+    }
+
+    void OnDisable()
+    {
+        BaseEnemy.OnEnemyDeadAction -= RemoveEnemy;
+    }
+
     public void InitLevel(int idLevel)
     {
+        DestroyCurLevel();
         OrderId = idLevel;
-
+        LoadLevel();
     }
 
     public int GetMaxLevelNumber()
@@ -34,6 +50,55 @@ public class LevelCtrl : MonoBehaviour
             return 0;
 
         return dataContainer.levels.Max(l => l.OrderId);
+    }
+
+    public void OnNextGame()
+    {
+        if(DataPrefs.CurrentLevel < GetMaxLevelNumber())
+        {
+            DataPrefs.CurrentLevel++;
+        }
+        else
+        {
+            DataPrefs.CurrentLevel = 0;
+        }
+    }
+
+    public void DestroyCurLevel()
+    {
+        _playerTransform.gameObject.SetActive(false);
+
+        foreach (Transform map in _mapRoot)
+        {
+            map.gameObject.SetActive(false);
+        }
+
+        List<BaseObstacle> existingObstacles = transform.GetComponentsInChildren<BaseObstacle>().ToList();
+        foreach (BaseObstacle obstacle in existingObstacles)
+        {
+#if UNITY_EDITOR
+            if (!Application.isPlaying)
+                DestroyImmediate(obstacle.gameObject);
+            else
+                Destroy(obstacle.gameObject);
+#else
+    Destroy(obstacle.gameObject);
+#endif
+        }
+
+        //Destroyd Enemy
+        List<BaseEnemy> existingEnemies = transform.GetComponentsInChildren<BaseEnemy>().ToList();
+        foreach (BaseEnemy enemy in existingEnemies)
+        {
+#if UNITY_EDITOR
+            if (!Application.isPlaying)
+                DestroyImmediate(enemy.gameObject);
+            else
+                Destroy(enemy.gameObject);
+#else
+        Destroy(enemy.gameObject);
+#endif
+        }
     }
 
     #region EDITOR ONLY
@@ -115,11 +180,24 @@ public class LevelCtrl : MonoBehaviour
             {
                 Transform = TransformObj.FromTransform(_playerTransform)
             },
-            listEnemy = new List<EnemyData>()
+            listEnemy = new List<EnemyData>(),
+            listObstacle = new List<ObstacleData>(),
+            
         };
 
-        List<BaseEnemy> enemies = transform.GetComponentsInChildren<BaseEnemy>().ToList();
+        List<BaseObstacle> obstacles = transform.GetComponentsInChildren<BaseObstacle>().ToList();
+        foreach (BaseObstacle o in obstacles)
+        {
+            ObstacleData obstacleData = new ObstacleData
+            {
+                Transform = TransformObj.FromTransform(o.transform),
+                Type = o.obstacleType
+            };
 
+            newLevel.listObstacle.Add(obstacleData);
+        }
+
+        List<BaseEnemy> enemies = transform.GetComponentsInChildren<BaseEnemy>().ToList();
         foreach (BaseEnemy e in enemies)
         {
             EnemyData enemyData = new EnemyData
@@ -181,11 +259,39 @@ public class LevelCtrl : MonoBehaviour
         // ================= PLAYER =================
         if (levelData.PlayerData != null)
         {
+            _playerTransform.gameObject.SetActive(true);
             levelData.PlayerData.Transform.ApplyTo(_playerTransform);
         }
         else
         {
             Debug.LogWarning("PlayerData hoặc Transform bị null, bỏ qua load player.");
+        }
+
+        // ================= CLEAR OBSTACLES =================
+        List<BaseObstacle> existingObstacles = transform.GetComponentsInChildren<BaseObstacle>().ToList();
+        foreach (BaseObstacle obstacle in existingObstacles)
+        {
+#if UNITY_EDITOR
+            if (!Application.isPlaying)
+                DestroyImmediate(obstacle.gameObject);
+            else
+                Destroy(obstacle.gameObject);
+#else
+    Destroy(obstacle.gameObject);
+#endif
+        }
+
+        // ================= SPAWN OBSTACLES =================
+        if (levelData.listObstacle != null)
+        {
+            foreach (ObstacleData obstacleData in levelData.listObstacle)
+            {
+                BaseObstacle prefab = obstaclePrefabs.FirstOrDefault(x => x.obstacleType == obstacleData.Type);
+
+                BaseObstacle newObstacle = Instantiate(prefab, transform);
+                obstacleData.Transform.ApplyTo(newObstacle.transform);
+                newObstacle.obstacleType = obstacleData.Type;
+            }
         }
 
         // ================= CLEAR ENEMY =================
@@ -209,6 +315,7 @@ public class LevelCtrl : MonoBehaviour
             return;
         }
 
+        _enemyAliveCount = 0;
         foreach (EnemyData enemyData in levelData.listEnemy)
         {
             //if (enemyData == null || enemyData.Transform == null)
@@ -220,10 +327,20 @@ public class LevelCtrl : MonoBehaviour
             // Tạo enemy mới (không set transform ở Instantiate để tránh set 2 lần)
             BaseEnemy newEnemy = Instantiate(_enemyPrefab, this.transform);
             enemyData.Transform.ApplyTo(newEnemy.transform);
-
+            _enemyAliveCount++;
         }
 
         Debug.Log($"Load Level {OrderId} thành công. Enemy count: {levelData.listEnemy.Count}");
     }
     #endregion
+
+    public void RemoveEnemy(BaseEnemy e)
+    {
+        _enemyAliveCount--;
+
+        if (_enemyAliveCount <= 0)
+        {
+            OnClearEnemyAction?.Invoke();
+        }
+    }
 }

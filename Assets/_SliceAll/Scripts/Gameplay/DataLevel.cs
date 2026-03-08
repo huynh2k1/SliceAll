@@ -12,10 +12,12 @@ public class DataLevel
 [Serializable]
 public class LevelData
 {
-    public int OrderId = 0;
+    public int OrderId;
     public int MapId;
-    public List<EnemyData> listEnemy = new List<EnemyData>();
     public PlayerData PlayerData;
+
+    public List<EnemyData> listEnemy;
+    public List<ObstacleData> listObstacle; // thêm dòng này
 }
 
 [Serializable]
@@ -37,6 +39,13 @@ public enum EnemyType
     E0,
     E1,
     E2,
+}
+
+[Serializable]
+public class ObstacleData
+{
+    public TransformObj Transform;
+    public ObstacleType Type;
 }
 
 [Serializable]

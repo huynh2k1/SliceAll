@@ -36,6 +36,12 @@ public class Bullet : MonoBehaviour
         // dừng hẳn lại
         _rb.isKinematic = true;
 
+        BaseObstacle o = collision.gameObject.GetComponent<BaseObstacle>();
+        if(o != null)
+        {
+            o.OnCollisionWithBullet();
+        }
+
         //Checking Enemy
         BaseEnemy e = collision.gameObject.GetComponentInParent<BaseEnemy>();
         if (e != null)

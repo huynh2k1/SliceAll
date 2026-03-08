@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
 using UnityEngine;
 
 public class UICtrl : BaseUICtrl
@@ -29,13 +30,19 @@ public class UICtrl : BaseUICtrl
     public void OnWinGame()
     {
         Hide(UIType.GAME);
-        Show(UIType.WIN);
+        DOVirtual.DelayedCall(1f, () =>
+        {
+            Show(UIType.WIN);
+        });
     }
 
     public void OnLoseGame()
     {
         Hide(UIType.GAME);
-        Show(UIType.LOSE);
+        DOVirtual.DelayedCall(1f, () =>
+        {
+            Show(UIType.LOSE);
+        });
     }
 
 

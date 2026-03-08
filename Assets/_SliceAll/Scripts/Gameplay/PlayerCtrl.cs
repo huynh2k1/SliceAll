@@ -20,7 +20,7 @@ public class PlayerCtrl : MonoBehaviour
         BtnShoot.OnPointerUpAction += OnNormalState;
     }
 
-    private void OnDestroy()
+    private void OnDisable()
     {
         BtnShoot.OnPointerDownAction -= OnAimState;
         BtnShoot.OnPointerUpAction -= OnNormalState;

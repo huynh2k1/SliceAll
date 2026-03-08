@@ -1,4 +1,5 @@
 using NaughtyAttributes;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,10 +7,12 @@ using UnityEngine;
 public class BaseEnemy : MonoBehaviour
 {
     public EnemyType Type;
-    [SerializeField] Animator _animator;
+    [SerializeField] protected Animator _animator;
     [SerializeField] Rigidbody[] _rigidbodies;
     [SerializeField] Collider[] _colliders;
     public bool IsDead { get; protected set; }
+
+    public static Action<BaseEnemy> OnEnemyDeadAction;
 
 
     [Button("Setup Ragdoll")]
@@ -47,8 +50,12 @@ public class BaseEnemy : MonoBehaviour
 
     public virtual void Dead()
     {
+        if (IsDead)
+            return;
         IsDead = true;
         _animator.enabled = false;
         EnableRagdoll(false);
+        OnEnemyDeadAction?.Invoke(this);
+        Destroy(gameObject, 3f);
     }
 }

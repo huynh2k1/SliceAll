@@ -8,6 +8,7 @@ public class GameCtrl : MonoBehaviour
 {
     public static GameCtrl I;
     [SerializeField] UICtrl _uiCtrl;
+    [SerializeField] LevelCtrl _levelCtrl;
     public enum GameState
     {
         NONE,
@@ -31,6 +32,12 @@ public class GameCtrl : MonoBehaviour
 
         UIPause.OnClickBtnResumeAction += OnResumeGame;
         UIPause.OnClickBtnHomeAction += OnGameHome;
+
+        UIWin.OnClickBtnHome += OnGameHome;
+        UIWin.OnClickBtnNext += OnNextGame;
+        UIWin.OnClickBtnReplay += OnReplayGame;
+
+        _levelCtrl.OnClearEnemyAction += OnWinGame;
     }
 
     private void OnDestroy()
@@ -42,6 +49,12 @@ public class GameCtrl : MonoBehaviour
 
         UIPause.OnClickBtnResumeAction -= OnResumeGame;
         UIPause.OnClickBtnHomeAction -= OnGameHome;
+
+        UIWin.OnClickBtnHome -= OnGameHome;
+        UIWin.OnClickBtnNext -= OnNextGame;
+        UIWin.OnClickBtnReplay -= OnReplayGame;
+
+        _levelCtrl.OnClearEnemyAction -= OnWinGame;
     }
 
     private void Start()
@@ -64,6 +77,7 @@ public class GameCtrl : MonoBehaviour
     {
         Loading(() =>
         {
+            _levelCtrl.DestroyCurLevel();
             ChangeState(GameState.NONE);
             _uiCtrl.OnGameHome();
         });
@@ -73,7 +87,9 @@ public class GameCtrl : MonoBehaviour
     {
         Loading(() =>
         {
+            Time.timeScale = 1;
             _uiCtrl.OnStartGame();
+            _levelCtrl.InitLevel(DataPrefs.CurrentLevel);
         }, () =>
         {
             ChangeState(GameState.PLAYING);
@@ -83,12 +99,13 @@ public class GameCtrl : MonoBehaviour
     public void OnWinGame()
     {
         ChangeState(GameState.NONE);
+        _uiCtrl.OnWinGame();
     }
 
     public void OnLoseGame()
     {
         ChangeState(GameState.NONE);
-
+        _uiCtrl.OnLoseGame();
     }
 
     public void OnPauseGame()
@@ -104,10 +121,15 @@ public class GameCtrl : MonoBehaviour
         Time.timeScale = 1;
     }
 
+    public void OnNextGame()
+    {
+        _levelCtrl.OnNextGame();
+        OnStartGame();
+    }
+
     public void OnReplayGame()
     {
-        ChangeState(GameState.NONE);
-
+        OnStartGame();
     }
 
     public void OnSettingGame()

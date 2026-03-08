@@ -12,7 +12,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Controller
       value: 
-      objectReference: {fileID: 9100000, guid: c519166df6c38dd4c95ef89310ef589f, type: 2}
+      objectReference: {fileID: 9100000, guid: 4b2ce3d4b0e68624eaaabf2e98a0d8d1, type: 2}
     - target: {fileID: 6279823610682781954, guid: 970a0e0414fa8be4695cbe8c3d95afd7,
         type: 3}
       propertyPath: m_LocalScale.x
@@ -2253,6 +2253,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70008f3046609b741b033e3efc95efd2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Type: 0
   _animator: {fileID: 999059359640009316}
   _rigidbodies:
   - {fileID: 7044311729937314046}
@@ -2286,6 +2287,11 @@ MonoBehaviour:
   - {fileID: 7634874652494421007}
   - {fileID: 2090574940841222773}
   - {fileID: 3063199637033512322}
+  clips:
+  - {fileID: 7400000, guid: be05d73af8aa1fe4fa78942d4ab7cc02, type: 2}
+  - {fileID: 7400000, guid: da062b18380aba847a547086c1f3cc59, type: 2}
+  - {fileID: 7400000, guid: c4af7d934789eac4abff5331ba92c997, type: 2}
+  - {fileID: 7400000, guid: 2755ceec731b6064e81220a04720da76, type: 2}
 --- !u!4 &8612791442359525553 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5414809331485610391, guid: efedddaac19667d49999e28728e23487,
