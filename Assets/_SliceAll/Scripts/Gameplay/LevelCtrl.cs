@@ -11,10 +11,15 @@ public class LevelCtrl : MonoBehaviour
 {
     public int OrderId;
 
-    [SerializeField] Transform _playerTransform;
-    [SerializeField] BaseEnemy _enemyPrefab;
+    [SerializeField] PlayerCtrl _playerTransform;
+
+    [Header("Enemy")]
+    [SerializeField] List<BaseEnemy> enemyPrefabs;
+
+    [Header("Obstacle")]
     [SerializeField] List<BaseObstacle> obstaclePrefabs;
-    [SerializeField] private Transform _mapRoot; // Gán MapTransform trong Inspector    
+
+    [SerializeField] private Transform _mapRoot;
 
     const string pathSave = "GameConfigs/DataLevel";
     const string fileName = "AllLevel.json";
@@ -22,7 +27,10 @@ public class LevelCtrl : MonoBehaviour
     [SerializeField] TextAsset _data;
 
     public event Action OnClearEnemyAction;
+
     int _enemyAliveCount;
+
+    public static Action<int> OnEnemyAliveChange;
 
     void OnEnable()
     {
@@ -54,7 +62,7 @@ public class LevelCtrl : MonoBehaviour
 
     public void OnNextGame()
     {
-        if(DataPrefs.CurrentLevel < GetMaxLevelNumber())
+        if (DataPrefs.CurrentLevel < GetMaxLevelNumber())
         {
             DataPrefs.CurrentLevel++;
         }
@@ -64,6 +72,7 @@ public class LevelCtrl : MonoBehaviour
         }
     }
 
+    [Button("Initialize")]
     public void DestroyCurLevel()
     {
         _playerTransform.gameObject.SetActive(false);
@@ -82,11 +91,10 @@ public class LevelCtrl : MonoBehaviour
             else
                 Destroy(obstacle.gameObject);
 #else
-    Destroy(obstacle.gameObject);
+            Destroy(obstacle.gameObject);
 #endif
         }
 
-        //Destroyd Enemy
         List<BaseEnemy> existingEnemies = transform.GetComponentsInChildren<BaseEnemy>().ToList();
         foreach (BaseEnemy enemy in existingEnemies)
         {
@@ -96,12 +104,13 @@ public class LevelCtrl : MonoBehaviour
             else
                 Destroy(enemy.gameObject);
 #else
-        Destroy(enemy.gameObject);
+            Destroy(enemy.gameObject);
 #endif
         }
     }
 
-    #region EDITOR ONLY
+    #region EDITOR
+
     string GetFilePath()
     {
         string directory = Path.Combine(Application.dataPath, pathSave);
@@ -109,7 +118,6 @@ public class LevelCtrl : MonoBehaviour
         if (!Directory.Exists(directory))
         {
             Directory.CreateDirectory(directory);
-            Debug.Log("Created directory: " + directory);
         }
 
         return Path.Combine(directory, fileName);
@@ -144,23 +152,23 @@ public class LevelCtrl : MonoBehaviour
                 MapIdentify id = map.GetComponent<MapIdentify>();
                 if (id != null)
                     return id.MapId;
-
-                Debug.LogError("Map chưa có MapIdentifier: " + map.name);
             }
         }
 
-        Debug.LogWarning("Không có map nào active, mặc định MapId = 0");
         return 0;
     }
+
     #endregion
 
-    #region SAVE LEVEL TO JSON
+    #region SAVE LEVEL
+
     [Button("Save Level To Json")]
     public void SaveLevel()
     {
         string path = GetFilePath();
 
         DataLevel dataContainer = new DataLevel();
+
         if (File.Exists(path))
         {
             string existingJson = File.ReadAllText(path);
@@ -176,16 +184,18 @@ public class LevelCtrl : MonoBehaviour
         {
             OrderId = this.OrderId,
             MapId = GetCurrentMapId(),
+
             PlayerData = new PlayerData
             {
-                Transform = TransformObj.FromTransform(_playerTransform)
+                Transform = TransformObj.FromTransform(_playerTransform.transform)
             },
+
             listEnemy = new List<EnemyData>(),
-            listObstacle = new List<ObstacleData>(),
-            
+            listObstacle = new List<ObstacleData>()
         };
 
         List<BaseObstacle> obstacles = transform.GetComponentsInChildren<BaseObstacle>().ToList();
+
         foreach (BaseObstacle o in obstacles)
         {
             ObstacleData obstacleData = new ObstacleData
@@ -198,6 +208,7 @@ public class LevelCtrl : MonoBehaviour
         }
 
         List<BaseEnemy> enemies = transform.GetComponentsInChildren<BaseEnemy>().ToList();
+
         foreach (BaseEnemy e in enemies)
         {
             EnemyData enemyData = new EnemyData
@@ -210,18 +221,18 @@ public class LevelCtrl : MonoBehaviour
         }
 
         int existingIndex = dataContainer.levels.FindIndex(l => l.OrderId == OrderId);
+
         if (existingIndex >= 0)
         {
             dataContainer.levels[existingIndex] = newLevel;
-            Debug.Log($"Level {OrderId} đã được ghi đè");
         }
         else
         {
             dataContainer.levels.Add(newLevel);
-            Debug.Log($"Level {OrderId} đã được thêm mới");
         }
 
         string json = JsonUtility.ToJson(dataContainer, true);
+
         File.WriteAllText(path, json);
 
 #if UNITY_EDITOR
@@ -230,10 +241,12 @@ public class LevelCtrl : MonoBehaviour
 
         Debug.Log("Level saved to: " + path);
     }
+
     #endregion
 
-    #region LOAD LEVEL FROM JSON    
-    [Button("Load Level To Json")]
+    #region LOAD LEVEL
+
+    [Button("Load Level")]
     public void LoadLevel()
     {
         string json = _data.text;
@@ -242,33 +255,29 @@ public class LevelCtrl : MonoBehaviour
 
         if (dataContainer == null || dataContainer.levels == null || dataContainer.levels.Count == 0)
         {
-            Debug.LogError("File JSON không hợp lệ hoặc không có dữ liệu level!");
+            Debug.LogError("JSON không hợp lệ");
             return;
         }
 
         LevelData levelData = dataContainer.levels.FirstOrDefault(l => l.OrderId == OrderId);
+
         if (levelData == null)
         {
-            Debug.LogError($"Không tìm thấy Level có OrderId = {OrderId}");
+            Debug.LogError($"Không tìm thấy Level {OrderId}");
             return;
         }
 
-        // ================= MAP =================
         ApplyMap(levelData.MapId);
 
-        // ================= PLAYER =================
         if (levelData.PlayerData != null)
         {
             _playerTransform.gameObject.SetActive(true);
-            levelData.PlayerData.Transform.ApplyTo(_playerTransform);
-        }
-        else
-        {
-            Debug.LogWarning("PlayerData hoặc Transform bị null, bỏ qua load player.");
+            levelData.PlayerData.Transform.ApplyTo(_playerTransform.transform);
+            _playerTransform.Init(levelData.PlayerData.Transform.Rotation);
         }
 
-        // ================= CLEAR OBSTACLES =================
         List<BaseObstacle> existingObstacles = transform.GetComponentsInChildren<BaseObstacle>().ToList();
+
         foreach (BaseObstacle obstacle in existingObstacles)
         {
 #if UNITY_EDITOR
@@ -277,25 +286,30 @@ public class LevelCtrl : MonoBehaviour
             else
                 Destroy(obstacle.gameObject);
 #else
-    Destroy(obstacle.gameObject);
+            Destroy(obstacle.gameObject);
 #endif
         }
 
-        // ================= SPAWN OBSTACLES =================
         if (levelData.listObstacle != null)
         {
             foreach (ObstacleData obstacleData in levelData.listObstacle)
             {
                 BaseObstacle prefab = obstaclePrefabs.FirstOrDefault(x => x.obstacleType == obstacleData.Type);
 
+                if (prefab == null)
+                {
+                    Debug.LogError("Missing obstacle prefab: " + obstacleData.Type);
+                    continue;
+                }
+
                 BaseObstacle newObstacle = Instantiate(prefab, transform);
+
                 obstacleData.Transform.ApplyTo(newObstacle.transform);
-                newObstacle.obstacleType = obstacleData.Type;
             }
         }
 
-        // ================= CLEAR ENEMY =================
         List<BaseEnemy> existingEnemies = transform.GetComponentsInChildren<BaseEnemy>().ToList();
+
         foreach (BaseEnemy enemy in existingEnemies)
         {
 #if UNITY_EDITOR
@@ -304,39 +318,45 @@ public class LevelCtrl : MonoBehaviour
             else
                 Destroy(enemy.gameObject);
 #else
-        Destroy(enemy.gameObject);
+            Destroy(enemy.gameObject);
 #endif
         }
 
-        // ================= SPAWN ENEMY =================
         if (levelData.listEnemy == null || levelData.listEnemy.Count == 0)
         {
-            Debug.LogWarning("Level không có enemy nào để load.");
+            Debug.LogWarning("Level không có enemy");
             return;
         }
 
         _enemyAliveCount = 0;
+
         foreach (EnemyData enemyData in levelData.listEnemy)
         {
-            //if (enemyData == null || enemyData.Transform == null)
-            //{
-            //    Debug.LogWarning("EnemyData hoặc Transform bị null, bỏ qua enemy này.");
-            //    continue;
-            //}
+            BaseEnemy prefab = enemyPrefabs.FirstOrDefault(x => x.Type == enemyData.Type);
 
-            // Tạo enemy mới (không set transform ở Instantiate để tránh set 2 lần)
-            BaseEnemy newEnemy = Instantiate(_enemyPrefab, this.transform);
+            if (prefab == null)
+            {
+                Debug.LogError("Missing enemy prefab: " + enemyData.Type);
+                continue;
+            }
+
+            BaseEnemy newEnemy = Instantiate(prefab, transform);
+
             enemyData.Transform.ApplyTo(newEnemy.transform);
+
             _enemyAliveCount++;
         }
+        OnEnemyAliveChange?.Invoke(_enemyAliveCount);
 
-        Debug.Log($"Load Level {OrderId} thành công. Enemy count: {levelData.listEnemy.Count}");
+        Debug.Log($"Load Level {OrderId} thành công. Enemy count: {_enemyAliveCount}");
     }
+
     #endregion
 
     public void RemoveEnemy(BaseEnemy e)
     {
         _enemyAliveCount--;
+        OnEnemyAliveChange?.Invoke(_enemyAliveCount);
 
         if (_enemyAliveCount <= 0)
         {

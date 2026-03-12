@@ -1,4 +1,5 @@
 using System;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,29 +10,46 @@ public class UIGame : BaseUI
     [SerializeField] GameObject _cross;
     [SerializeField] Image _btnShoot;
 
+    [SerializeField] TMP_Text _txtEnemyCount;
+    [SerializeField] TMP_Text _txtArrowCount;
+    [SerializeField] TMP_Text _txtLevel;
+
     public static Action OnClickBtnPauseAction;
 
     private void Awake()
     {
         _btnPause.onClick.AddListener(OnBtnPauseClicked);
-    }
-
-    private void OnEnable()
-    {
         BtnShoot.OnPointerDownAction += OnAimState;
-        BtnShoot.OnPointerUpAction += OnNormalState;
+        BtnShoot.OnPointerUpAction += OnPointerUp;
+        PlayerCtrl.OnNormalStateAction += OnNormalState;
+
+        LevelCtrl.OnEnemyAliveChange += UpdateTextEnemyCount;
     }
 
-    private void OnDisable()
+    public override void Show()
+    {
+        base.Show();
+        UpdateTextLevel();
+    }
+
+    private void OnDestroy()
     {
         BtnShoot.OnPointerDownAction -= OnAimState;
-        BtnShoot.OnPointerUpAction -= OnNormalState;
+        BtnShoot.OnPointerUpAction -= OnPointerUp;  
+        PlayerCtrl.OnNormalStateAction -= OnNormalState;
+
+        LevelCtrl.OnEnemyAliveChange -= UpdateTextEnemyCount;
     }
 
     void OnNormalState()
     {
         _cross.SetActive(false);
         _btnShoot.enabled = true;
+    }
+
+    void OnPointerUp()
+    {
+        _cross.SetActive(false);
     }
 
     void OnAimState()
@@ -43,5 +61,20 @@ public class UIGame : BaseUI
     void OnBtnPauseClicked()
     {
         OnClickBtnPauseAction?.Invoke();
+    }
+
+    void UpdateTextEnemyCount(int count)
+    {
+        _txtEnemyCount.text = count.ToString(); 
+    }
+
+    void UpdateTextArrowCount(int count)
+    {
+        _txtArrowCount.text = count.ToString();
+    }
+
+    void UpdateTextLevel()
+    {
+        _txtLevel.text = $"LEVEL {DataPrefs.CurrentLevel + 1}";
     }
 }

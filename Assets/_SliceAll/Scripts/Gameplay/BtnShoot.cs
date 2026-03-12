@@ -14,14 +14,29 @@ public class BtnShoot : MonoBehaviour, IPointerDownHandler
     bool isDragging;
     Vector2 lastPos;
 
+    float initRotX;
+    float initRotY;
     float rotX;
     float rotY;
 
-    void Start()
+    private void Awake()
+    {
+        PlayerCtrl.OnPlayerInit += Init;
+    }
+
+    private void OnDestroy()
+    {
+        PlayerCtrl.OnPlayerInit -= Init;
+    }
+
+    public void Init()
     {
         Vector3 e = player.eulerAngles;
+        initRotX = e.x;
+        initRotY = e.y;
         rotX = e.x;
         rotY = e.y;
+        lastPos = Vector3.zero;
     }
 
     public void OnPointerDown(PointerEventData eventData)
@@ -38,8 +53,8 @@ public class BtnShoot : MonoBehaviour, IPointerDownHandler
         {
             isDragging = false;
             OnPointerUpAction?.Invoke();
-            rotX = 0;
-            rotY = 0;
+            rotX = initRotX;
+            rotY = initRotY;
         }
 
 

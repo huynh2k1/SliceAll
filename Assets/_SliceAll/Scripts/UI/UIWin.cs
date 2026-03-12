@@ -9,7 +9,7 @@ public class UIWin : BasePopup
     public override UIType Type => UIType.WIN;
 
     [SerializeField] Button _btnHome;
-    [SerializeField] Button _btnReplay;
+    //[SerializeField] Button _btnReplay;
     [SerializeField] Button _btnNext;
 
     public static Action OnClickBtnHome;
@@ -20,7 +20,7 @@ public class UIWin : BasePopup
     {
         base.Awake();
         _btnHome.onClick.AddListener(OnClickHome);
-        _btnReplay.onClick.AddListener(OnClickReplay);
+        //_btnReplay.onClick.AddListener(OnClickReplay);
         _btnNext.onClick.AddListener(OnClickNext);
     }
 

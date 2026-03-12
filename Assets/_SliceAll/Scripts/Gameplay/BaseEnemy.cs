@@ -8,6 +8,7 @@ public class BaseEnemy : MonoBehaviour
 {
     public EnemyType Type;
     [SerializeField] protected Animator _animator;
+    public AnimationClip _animationClip;
     [SerializeField] Rigidbody[] _rigidbodies;
     [SerializeField] Collider[] _colliders;
     public bool IsDead { get; protected set; }
@@ -38,6 +39,8 @@ public class BaseEnemy : MonoBehaviour
         {
             _colliders = GetComponentsInChildren<Collider>();
         }
+
+        _animator.Play(_animationClip.name);
     }
 
     protected virtual void EnableRagdoll(bool isEnable)
