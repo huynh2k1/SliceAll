@@ -1,13 +1,13 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1102 &-6978004734745410197
+--- !u!1102 &-8943283778001749447
 AnimatorState:
   serializedVersion: 6
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: RunningCarryBomb
+  m_Name: E1_Scream
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -20,20 +20,20 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 4ad7a1d9e3fd1024bae7869881e05ac5, type: 2}
+  m_Motion: {fileID: 7400000, guid: 2755ceec731b6064e81220a04720da76, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
---- !u!1102 &-2914634882248558689
+--- !u!1102 &-8800396492260933632
 AnimatorState:
   serializedVersion: 6
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Head Spinning
+  m_Name: E4_Clapping
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -46,7 +46,33 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: bc1666b107232dd458ef1430265f6ccf, type: 2}
+  m_Motion: {fileID: 7400000, guid: 23f2f7706f0d6ab4098c9e5fa5719f5d, type: 2}
+  m_Tag: 
+  m_SpeedParameter: 
+  m_MirrorParameter: 
+  m_CycleOffsetParameter: 
+  m_TimeParameter: 
+--- !u!1102 &-3584323972508309237
+AnimatorState:
+  serializedVersion: 6
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: E11_WaveHipHopDance
+  m_Speed: 1
+  m_CycleOffset: 0
+  m_Transitions: []
+  m_StateMachineBehaviours: []
+  m_Position: {x: 50, y: 50, z: 0}
+  m_IKOnFeet: 0
+  m_WriteDefaultValues: 1
+  m_Mirror: 0
+  m_SpeedParameterActive: 0
+  m_MirrorParameterActive: 0
+  m_CycleOffsetParameterActive: 0
+  m_TimeParameterActive: 0
+  m_Motion: {fileID: 7400000, guid: da062b18380aba847a547086c1f3cc59, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -65,35 +91,41 @@ AnimatorStateMachine:
     m_State: {fileID: -1276634548708956604}
     m_Position: {x: 210, y: 230, z: 0}
   - serializedVersion: 1
-    m_State: {fileID: 2747595666454350769}
-    m_Position: {x: 350, y: -420, z: 0}
+    m_State: {fileID: -8943283778001749447}
+    m_Position: {x: 484.1303, y: -290.89478, z: 0}
   - serializedVersion: 1
-    m_State: {fileID: -2914634882248558689}
-    m_Position: {x: 350, y: -370, z: 0}
+    m_State: {fileID: 6459248179124939731}
+    m_Position: {x: 494.1303, y: -280.89478, z: 0}
   - serializedVersion: 1
-    m_State: {fileID: -1179818559235861885}
-    m_Position: {x: 350, y: -320, z: 0}
+    m_State: {fileID: 2452418961872001609}
+    m_Position: {x: 504.1303, y: -270.89478, z: 0}
   - serializedVersion: 1
-    m_State: {fileID: 289795013758798277}
-    m_Position: {x: 350, y: -270, z: 0}
+    m_State: {fileID: -8800396492260933632}
+    m_Position: {x: 514.1303, y: -260.89478, z: 0}
   - serializedVersion: 1
-    m_State: {fileID: -6978004734745410197}
-    m_Position: {x: 350, y: -220, z: 0}
+    m_State: {fileID: 4105723540739644809}
+    m_Position: {x: 524.1303, y: -250.89478, z: 0}
   - serializedVersion: 1
-    m_State: {fileID: 8618366561976797671}
-    m_Position: {x: 350, y: -170, z: 0}
+    m_State: {fileID: -1853299443471359658}
+    m_Position: {x: 534.1303, y: -240.89478, z: 0}
   - serializedVersion: 1
-    m_State: {fileID: 5039031656253793014}
-    m_Position: {x: 350, y: -120, z: 0}
+    m_State: {fileID: 8640296746967727436}
+    m_Position: {x: 544.1303, y: -230.89478, z: 0}
   - serializedVersion: 1
-    m_State: {fileID: 3903219253351242265}
-    m_Position: {x: 350, y: -70, z: 0}
+    m_State: {fileID: 7684951943310393068}
+    m_Position: {x: 554.1303, y: -220.89478, z: 0}
   - serializedVersion: 1
-    m_State: {fileID: -1857405726565067624}
-    m_Position: {x: 350, y: -20, z: 0}
+    m_State: {fileID: 3597950502865152761}
+    m_Position: {x: 564.1303, y: -210.89478, z: 0}
   - serializedVersion: 1
-    m_State: {fileID: 131987299486018303}
-    m_Position: {x: 350, y: 30, z: 0}
+    m_State: {fileID: -1438778573098877274}
+    m_Position: {x: 574.1303, y: -200.89478, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: -3584323972508309237}
+    m_Position: {x: 584.1303, y: -190.89478, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: 4522256666792969751}
+    m_Position: {x: 642.1927, y: -32.72632, z: 0}
   m_ChildStateMachines: []
   m_AnyStateTransitions: []
   m_EntryTransitions: []
@@ -104,14 +136,14 @@ AnimatorStateMachine:
   m_ExitPosition: {x: 800, y: 120, z: 0}
   m_ParentStateMachinePosition: {x: 800, y: 20, z: 0}
   m_DefaultState: {fileID: -1276634548708956604}
---- !u!1102 &-1857405726565067624
+--- !u!1102 &-1853299443471359658
 AnimatorState:
   serializedVersion: 6
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: ZombiePunching
+  m_Name: E6_IdleFight
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -124,7 +156,33 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: c4af7d934789eac4abff5331ba92c997, type: 2}
+  m_Motion: {fileID: 7400000, guid: fd2fbb62e2f174a4eb4c6363f5e07080, type: 2}
+  m_Tag: 
+  m_SpeedParameter: 
+  m_MirrorParameter: 
+  m_CycleOffsetParameter: 
+  m_TimeParameter: 
+--- !u!1102 &-1438778573098877274
+AnimatorState:
+  serializedVersion: 6
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: E10_Snake Hip Hop Dance
+  m_Speed: 1
+  m_CycleOffset: 0
+  m_Transitions: []
+  m_StateMachineBehaviours: []
+  m_Position: {x: 50, y: 50, z: 0}
+  m_IKOnFeet: 0
+  m_WriteDefaultValues: 1
+  m_Mirror: 0
+  m_SpeedParameterActive: 0
+  m_MirrorParameterActive: 0
+  m_CycleOffsetParameterActive: 0
+  m_TimeParameterActive: 0
+  m_Motion: {fileID: 7400000, guid: 4ef1fa3b1d3018e4b949394b9681b284, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -156,32 +214,6 @@ AnimatorState:
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
---- !u!1102 &-1179818559235861885
-AnimatorState:
-  serializedVersion: 6
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: Look Behind Run
-  m_Speed: 1
-  m_CycleOffset: 0
-  m_Transitions: []
-  m_StateMachineBehaviours: []
-  m_Position: {x: 50, y: 50, z: 0}
-  m_IKOnFeet: 0
-  m_WriteDefaultValues: 1
-  m_Mirror: 0
-  m_SpeedParameterActive: 0
-  m_MirrorParameterActive: 0
-  m_CycleOffsetParameterActive: 0
-  m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 504db03c7e9946640bbfa836b34fd499, type: 2}
-  m_Tag: 
-  m_SpeedParameter: 
-  m_MirrorParameter: 
-  m_CycleOffsetParameter: 
-  m_TimeParameter: 
 --- !u!91 &9100000
 AnimatorController:
   m_ObjectHideFlags: 0
@@ -204,14 +236,14 @@ AnimatorController:
     m_IKPass: 0
     m_SyncedLayerAffectsTiming: 0
     m_Controller: {fileID: 9100000}
---- !u!1102 &131987299486018303
+--- !u!1102 &2452418961872001609
 AnimatorState:
   serializedVersion: 6
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: ZombieScream
+  m_Name: E3_Look Behind Run
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -224,46 +256,20 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 2755ceec731b6064e81220a04720da76, type: 2}
+  m_Motion: {fileID: 7400000, guid: 504db03c7e9946640bbfa836b34fd499, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
---- !u!1102 &289795013758798277
+--- !u!1102 &3597950502865152761
 AnimatorState:
   serializedVersion: 6
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: ReactionHit
-  m_Speed: 1
-  m_CycleOffset: 0
-  m_Transitions: []
-  m_StateMachineBehaviours: []
-  m_Position: {x: 50, y: 50, z: 0}
-  m_IKOnFeet: 0
-  m_WriteDefaultValues: 1
-  m_Mirror: 0
-  m_SpeedParameterActive: 0
-  m_MirrorParameterActive: 0
-  m_CycleOffsetParameterActive: 0
-  m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: be05d73af8aa1fe4fa78942d4ab7cc02, type: 2}
-  m_Tag: 
-  m_SpeedParameter: 
-  m_MirrorParameter: 
-  m_CycleOffsetParameter: 
-  m_TimeParameter: 
---- !u!1102 &2747595666454350769
-AnimatorState:
-  serializedVersion: 6
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: Gangnam Style
+  m_Name: E9_Gangnam Style
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -282,14 +288,14 @@ AnimatorState:
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
---- !u!1102 &3903219253351242265
+--- !u!1102 &4105723540739644809
 AnimatorState:
   serializedVersion: 6
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: WaveHipHopDance
+  m_Name: E5_Singing
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -302,20 +308,20 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: da062b18380aba847a547086c1f3cc59, type: 2}
+  m_Motion: {fileID: 7400000, guid: 6702457cbcea0f742b8824b509fa5b4e, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
---- !u!1102 &5039031656253793014
+--- !u!1102 &4522256666792969751
 AnimatorState:
   serializedVersion: 6
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Walking
+  m_Name: E7_Punching
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -328,20 +334,20 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 1e919920602b01f4b9b7a9742fd03470, type: 2}
+  m_Motion: {fileID: 7400000, guid: c4af7d934789eac4abff5331ba92c997, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
---- !u!1102 &8618366561976797671
+--- !u!1102 &6459248179124939731
 AnimatorState:
   serializedVersion: 6
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Snake Hip Hop Dance
+  m_Name: E2_RunningCarry
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -354,7 +360,59 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 4ef1fa3b1d3018e4b949394b9681b284, type: 2}
+  m_Motion: {fileID: 7400000, guid: 4ad7a1d9e3fd1024bae7869881e05ac5, type: 2}
+  m_Tag: 
+  m_SpeedParameter: 
+  m_MirrorParameter: 
+  m_CycleOffsetParameter: 
+  m_TimeParameter: 
+--- !u!1102 &7684951943310393068
+AnimatorState:
+  serializedVersion: 6
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: E8_Head Spinning
+  m_Speed: 1
+  m_CycleOffset: 0
+  m_Transitions: []
+  m_StateMachineBehaviours: []
+  m_Position: {x: 50, y: 50, z: 0}
+  m_IKOnFeet: 0
+  m_WriteDefaultValues: 1
+  m_Mirror: 0
+  m_SpeedParameterActive: 0
+  m_MirrorParameterActive: 0
+  m_CycleOffsetParameterActive: 0
+  m_TimeParameterActive: 0
+  m_Motion: {fileID: 7400000, guid: bc1666b107232dd458ef1430265f6ccf, type: 2}
+  m_Tag: 
+  m_SpeedParameter: 
+  m_MirrorParameter: 
+  m_CycleOffsetParameter: 
+  m_TimeParameter: 
+--- !u!1102 &8640296746967727436
+AnimatorState:
+  serializedVersion: 6
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: E7_IdleFight2
+  m_Speed: 1
+  m_CycleOffset: 0
+  m_Transitions: []
+  m_StateMachineBehaviours: []
+  m_Position: {x: 50, y: 50, z: 0}
+  m_IKOnFeet: 0
+  m_WriteDefaultValues: 1
+  m_Mirror: 0
+  m_SpeedParameterActive: 0
+  m_MirrorParameterActive: 0
+  m_CycleOffsetParameterActive: 0
+  m_TimeParameterActive: 0
+  m_Motion: {fileID: 7400000, guid: 2339083f320cd514abfcb4ec09138a47, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 

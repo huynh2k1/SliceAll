@@ -1,3 +1,6 @@
+using System;
+using System.Collections;
+using DG.Tweening;
 using UnityEngine;
 
 public class Barrel : BaseObstacle
@@ -7,37 +10,51 @@ public class Barrel : BaseObstacle
     [SerializeField] float upwards = 2f;
     [SerializeField] LayerMask hitLayer;
 
+    [SerializeField] ParticleSystem _explosionPrefab;
+
+    public static Action OnBangAction;
+
     bool _exploded;
     public override void OnCollisionWithBullet()
     {
-        base.OnCollisionWithBullet();
+        Debug.Log("Collision With Bullet");
         Bang();
     }
+
     public void Bang()
     {
         if (_exploded) return;
         _exploded = true;
 
-        Collider[] hits = Physics.OverlapSphere(transform.position, radius, hitLayer);
+        OnBangAction?.Invoke();
+        //Spawn fx
+        ParticleSystem fx = Instantiate(_explosionPrefab, transform.position, Quaternion.identity);
+        fx.Play();
 
-        foreach (Collider hit in hits)
+        DOVirtual.DelayedCall(0.2f, () =>
         {
-            // ================= ENEMY =================
-            BaseEnemy enemy = hit.GetComponentInParent<BaseEnemy>();
-            if (enemy != null)
+            Collider[] hits = Physics.OverlapSphere(transform.position, radius, hitLayer);
+
+            foreach (Collider hit in hits)
             {
-                enemy.Dead();
+                // ================= ENEMY =================
+                BaseEnemy enemy = hit.GetComponentInParent<BaseEnemy>();
+                if (enemy != null)
+                {
+                    enemy.Dead();
+                }
+
+                // ================= PUSH =================
+                Rigidbody rb = hit.attachedRigidbody;
+                if (rb != null)
+                {
+                    rb.AddExplosionForce(force, transform.position, radius, upwards, ForceMode.Impulse);
+                }
             }
 
-            // ================= PUSH =================
-            Rigidbody rb = hit.attachedRigidbody;
-            if (rb != null)
-            {
-                rb.AddExplosionForce(force, transform.position, radius, upwards, ForceMode.Impulse);
-            }
-        }
+            Destroy(gameObject);
+        });
 
-        Destroy(gameObject);
     }
 
 #if UNITY_EDITOR

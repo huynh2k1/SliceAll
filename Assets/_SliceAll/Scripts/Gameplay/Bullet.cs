@@ -4,15 +4,16 @@
 public class Bullet : MonoBehaviour
 {
     [SerializeField] float speed = 30f;
+    const float pushForce = 50f;
 
     Rigidbody _rb;
     bool _stopped;
 
+    [SerializeField] ParticleSystem _hitEffect;
+
     void Awake()
     {
         _rb = GetComponent<Rigidbody>();
-
-        // Không chịu trọng lực
         _rb.useGravity = false;
     }
 
@@ -24,30 +25,37 @@ public class Bullet : MonoBehaviour
         _rb.velocity = transform.forward * speed;
     }
 
-    void OnCollisionEnter(Collision collision)
+    private void OnTriggerEnter(Collider other)
     {
         if (_stopped) return;
-
         _stopped = true;
+        Debug.Log(other.name);
+        SpawnHitEffect(transform.position);
 
-        _rb.velocity = Vector3.zero;
-        _rb.angularVelocity = Vector3.zero;
-
-        // dừng hẳn lại
-        _rb.isKinematic = true;
-
-        BaseObstacle o = collision.gameObject.GetComponent<BaseObstacle>();
-        if(o != null)
+        BaseObstacle obstacle = other.GetComponent<BaseObstacle>();
+        if (obstacle != null)
         {
-            o.OnCollisionWithBullet();
+            obstacle.OnCollisionWithBullet();
         }
 
-        //Checking Enemy
-        BaseEnemy e = collision.gameObject.GetComponentInParent<BaseEnemy>();
+        BaseEnemy e = other.GetComponentInParent<BaseEnemy>();
         if (e != null)
         {
-            transform.SetParent(collision.transform.parent);
             e.Dead();
+            Rigidbody hitRb = other.attachedRigidbody;
+            if (hitRb != null)
+            {
+                hitRb.AddForce(transform.forward * pushForce, ForceMode.Impulse);
+            }
+
         }
+        Destroy(gameObject);
+    }
+
+    void SpawnHitEffect(Vector3 pos)
+    {
+        ParticleSystem p = Instantiate(_hitEffect, pos, Quaternion.identity);
+        p.transform.localScale = Vector3.one * 0.5f;
+        p.Play();
     }
 }

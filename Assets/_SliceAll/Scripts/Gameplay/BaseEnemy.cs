@@ -60,5 +60,18 @@ public class BaseEnemy : MonoBehaviour
         EnableRagdoll(false);
         OnEnemyDeadAction?.Invoke(this);
         Destroy(gameObject, 3f);
+        StartCoroutine(SlowMotion());
+    }
+
+
+    IEnumerator SlowMotion()
+    {
+        Time.timeScale = 0.1f;
+        Time.fixedDeltaTime = 0.02f * Time.timeScale;
+
+        yield return new WaitForSecondsRealtime(0.5f);
+
+        Time.timeScale = 1f;
+        Time.fixedDeltaTime = 0.02f;
     }
 }

@@ -18,4 +18,5 @@ public enum ObstacleType
 {
     OBSTACLE,
     BARREL,
+    O1,
 }
