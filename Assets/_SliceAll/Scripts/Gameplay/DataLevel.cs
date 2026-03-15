@@ -46,6 +46,16 @@ public enum EnemyType
     E8,
     E9,
     E10,
+    E11,
+    E12,
+    E13,
+    E14,
+    E15,
+    E16, 
+    E17,
+    E18,    
+    E19,
+    E20,
 }
 
 [Serializable]
