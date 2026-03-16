@@ -29,8 +29,8 @@ public class Bullet : MonoBehaviour
     {
         if (_stopped) return;
         _stopped = true;
-        Debug.Log(other.name);
         SpawnHitEffect(transform.position);
+        SoundCtrl.I.PlaySFXByType(TypeSFX.HITGROUND);
 
         BaseObstacle obstacle = other.GetComponent<BaseObstacle>();
         if (obstacle != null)
@@ -55,6 +55,7 @@ public class Bullet : MonoBehaviour
     void SpawnHitEffect(Vector3 pos)
     {
         ParticleSystem p = Instantiate(_hitEffect, pos, Quaternion.identity);
+        p.transform.SetParent(transform.parent, false);
         p.transform.localScale = Vector3.one * 0.5f;
         p.Play();
     }

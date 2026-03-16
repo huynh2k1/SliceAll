@@ -19,7 +19,6 @@ public class GameCtrl : MonoBehaviour
 
     private void Awake()
     {
-        Application.targetFrameRate = 120;
         I = this;
     }
 
@@ -57,11 +56,6 @@ public class GameCtrl : MonoBehaviour
         _levelCtrl.OnClearEnemyAction -= OnWinGame;
     }
 
-    private void Start()
-    {
-        OnInitGame();   
-    }
-
     public void ChangeState(GameState newState)
     {
         curState = newState;    
@@ -69,6 +63,7 @@ public class GameCtrl : MonoBehaviour
 
     public void OnInitGame()
     {
+        SoundCtrl.I.PlayMusic();
         ChangeState(GameState.NONE);
         _uiCtrl.OnInitGame();
     }
@@ -77,9 +72,11 @@ public class GameCtrl : MonoBehaviour
     {
         Loading(() =>
         {
+
             _levelCtrl.DestroyCurLevel();
             ChangeState(GameState.NONE);
             _uiCtrl.OnGameHome();
+            Time.timeScale = 1;
         });
     }
     
@@ -100,18 +97,19 @@ public class GameCtrl : MonoBehaviour
     {
         ChangeState(GameState.NONE);
         _uiCtrl.OnWinGame();
+        SoundCtrl.I.PlaySFXByType(TypeSFX.WIN);
     }
 
     public void OnLoseGame()
     {
         ChangeState(GameState.NONE);
         _uiCtrl.OnLoseGame();
+        SoundCtrl.I.PlaySFXByType(TypeSFX.LOSE);
     }
 
     public void OnPauseGame()
     {
         ChangeState(GameState.NONE);
-        Time.timeScale = 0;
         _uiCtrl.OnPauseGame();
     }
 

@@ -11,6 +11,12 @@ public class BtnShoot : MonoBehaviour, IPointerDownHandler
     [SerializeField] float rotateSpeed = 0.15f;
     [SerializeField] float smooth = 12f;
 
+    [SerializeField] GameObject _hand;
+    [SerializeField] float limitX = 60f;
+    [SerializeField] float limitY = 70f;
+
+
+
     bool isDragging;
     Vector2 lastPos;
 
@@ -29,6 +35,11 @@ public class BtnShoot : MonoBehaviour, IPointerDownHandler
         PlayerCtrl.OnPlayerInit -= Init;
     }
 
+    private void OnEnable()
+    {
+        _hand.SetActive(DataPrefs.IsFirstPlay);
+    }
+
     public void Init()
     {
         Vector3 e = player.eulerAngles;
@@ -44,19 +55,52 @@ public class BtnShoot : MonoBehaviour, IPointerDownHandler
         isDragging = true;
         lastPos = eventData.position;
 
+        if (DataPrefs.IsFirstPlay)
+        {
+            DataPrefs.IsFirstPlay = false;
+            _hand.SetActive(false);
+        }
+
         OnPointerDownAction?.Invoke();
     }
 
     void Update()
     {
-        if(isDragging && Input.GetMouseButtonUp(0))
+        //if(isDragging && Input.GetMouseButtonUp(0))
+        //{
+        //    isDragging = false;
+        //    OnPointerUpAction?.Invoke();
+        //    rotX = initRotX;
+        //    rotY = initRotY;
+        //}
+
+
+        //if (!isDragging)
+        //    return;
+
+        //Vector2 currentPos = Input.mousePosition;
+
+        //Vector2 delta = currentPos - lastPos;
+        //lastPos = currentPos;
+
+        //rotY += delta.x * rotateSpeed;
+        //rotX -= delta.y * rotateSpeed;
+
+        //rotX = Mathf.Clamp(rotX, -60f, 60f);
+
+        //Quaternion targetRot = Quaternion.Euler(rotX, rotY, 0f);
+        //player.rotation = Quaternion.Slerp(
+        //    player.rotation,
+        //    targetRot,
+        //    Time.deltaTime * smooth
+        //);
+        if (isDragging && Input.GetMouseButtonUp(0))
         {
             isDragging = false;
             OnPointerUpAction?.Invoke();
             rotX = initRotX;
             rotY = initRotY;
         }
-
 
         if (!isDragging)
             return;
@@ -69,9 +113,11 @@ public class BtnShoot : MonoBehaviour, IPointerDownHandler
         rotY += delta.x * rotateSpeed;
         rotX -= delta.y * rotateSpeed;
 
-        rotX = Mathf.Clamp(rotX, -60f, 60f);
+        rotX = Mathf.Clamp(rotX, initRotX - limitX, initRotX + limitX);
+        rotY = Mathf.Clamp(rotY, initRotY - limitY, initRotY + limitY);
 
         Quaternion targetRot = Quaternion.Euler(rotX, rotY, 0f);
+
         player.rotation = Quaternion.Slerp(
             player.rotation,
             targetRot,

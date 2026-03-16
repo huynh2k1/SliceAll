@@ -61,6 +61,7 @@ public class UIGame : BaseUI
     void OnBtnPauseClicked()
     {
         OnClickBtnPauseAction?.Invoke();
+        Time.timeScale = 0;
     }
 
     void UpdateTextEnemyCount(int count)

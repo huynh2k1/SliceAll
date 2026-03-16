@@ -55,6 +55,7 @@ public class BaseEnemy : MonoBehaviour
     {
         if (IsDead)
             return;
+        SoundCtrl.I.PlaySFXByType(TypeSFX.DEAD);
         IsDead = true;
         _animator.enabled = false;
         EnableRagdoll(false);

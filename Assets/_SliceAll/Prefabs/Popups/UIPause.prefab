@@ -349,6 +349,18 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 71105964938198384}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &3781442981825071534 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3784989772487767262, guid: 0570e9b578e9ec045ac5eac8b0c52a7b,
+    type: 3}
+  m_PrefabInstance: {fileID: 71105964938198384}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67db9e8f0e2ae9c40bc1e2b64352a6b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7393201846873670122 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7378430657936473242, guid: 0570e9b578e9ec045ac5eac8b0c52a7b,
@@ -756,6 +768,18 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 150651074709176447}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &3932139996232610977 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3784989772487767262, guid: 0570e9b578e9ec045ac5eac8b0c52a7b,
+    type: 3}
+  m_PrefabInstance: {fileID: 150651074709176447}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67db9e8f0e2ae9c40bc1e2b64352a6b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7237930897380867301 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7378430657936473242, guid: 0570e9b578e9ec045ac5eac8b0c52a7b,
@@ -921,7 +945,7 @@ PrefabInstance:
     - target: {fileID: 2511420075231543752, guid: 6ad9f1ea06542704a91918db9567779f,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3526608390655689990, guid: 6ad9f1ea06542704a91918db9567779f,
         type: 3}
@@ -1041,7 +1065,7 @@ PrefabInstance:
     - target: {fileID: 8150243817959394313, guid: 6ad9f1ea06542704a91918db9567779f,
         type: 3}
       propertyPath: m_Alpha
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1304,6 +1328,8 @@ MonoBehaviour:
   timeTween: 0.3
   _btnHome: {fileID: 7883226568251064003}
   _btnResume: {fileID: 2847138291052464723}
+  _sliderSound: {fileID: 3781442981825071534}
+  _sliderMusic: {fileID: 3932139996232610977}
 --- !u!225 &8448124700815762318 stripped
 CanvasGroup:
   m_CorrespondingSourceObject: {fileID: 8150243817959394313, guid: 6ad9f1ea06542704a91918db9567779f,

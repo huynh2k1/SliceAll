@@ -26,6 +26,7 @@ public class Barrel : BaseObstacle
         if (_exploded) return;
         _exploded = true;
 
+        SoundCtrl.I.PlaySFXByType(TypeSFX.EXPLOSION);
         OnBangAction?.Invoke();
         //Spawn fx
         ParticleSystem fx = Instantiate(_explosionPrefab, transform.position, Quaternion.identity);

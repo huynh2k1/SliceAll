@@ -22,7 +22,9 @@ public class PlayerCtrl : MonoBehaviour
     public static Action OnNormalStateAction;
     public static Action OnPlayerInit;
 
+    bool _canShoot = false;
 
+    Coroutine _aimBlendRoutine;
     private void Awake()
     {
         _cinemachineBrain.m_DefaultBlend.m_Time = _timeBlend;
@@ -50,16 +52,35 @@ public class PlayerCtrl : MonoBehaviour
     [Button("Normal")]
     public void OnNormalState()
     {
-        Shoot();
+        if (_aimBlendRoutine != null)
+        {
+            StopCoroutine(_aimBlendRoutine);
+            _aimBlendRoutine = null;
+
+            _vitualCam.enabled = false;
+            _animator.SetBool("Aim", false);
+            transform.rotation = _initRotation;
+
+            OnNormalStateAction?.Invoke();
+
+            return;
+        }
+
+        if (_canShoot)
+        {
+            Shoot();
+        }
+
+        _canShoot = false;
 
         StartCoroutine(WaitForBlendCamComplete());
     }
 
     IEnumerator WaitForBlendCamComplete()
     {
+        _animator.SetBool("Aim", false);
         yield return new WaitForSeconds(1f);
         _vitualCam.enabled = false;
-        _animator.SetBool("Aim", false);
         transform.rotation = _initRotation;
         yield return new WaitForSeconds(_timeBlend);
         //
@@ -71,10 +92,33 @@ public class PlayerCtrl : MonoBehaviour
     {
         _vitualCam.enabled = true;
         _animator.SetBool("Aim", true);
+
+        _canShoot = false;
+        SoundCtrl.I.PlaySFXByType(TypeSFX.DRAGBOW);
+        _aimBlendRoutine = StartCoroutine(WaitForAimBlendComplete());
+    }
+
+    IEnumerator WaitForAimBlendComplete()
+    {
+        yield return null;
+
+        while (_cinemachineBrain.IsBlending)
+        {
+            yield return null;
+        }
+            
+        _canShoot = true;
+        if (_aimBlendRoutine != null)
+        {
+            StopCoroutine(_aimBlendRoutine);
+            _aimBlendRoutine = null;
+        }
+
     }
 
     public void Shoot()
     {
+        SoundCtrl.I.PlaySFXByType(TypeSFX.SHOOT);
         Bullet b = Instantiate(_bulletPrefab, _firePos.position, _firePos.rotation);
     }
 }
