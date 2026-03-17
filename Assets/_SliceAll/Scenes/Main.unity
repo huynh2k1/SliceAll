@@ -7541,7 +7541,7 @@ MonoBehaviour:
   rotateSpeed: 0.15
   smooth: 12
   _hand: {fileID: 1369453533}
-  limitX: 30
+  limitX: 40
   limitY: 30
 --- !u!61 &1469669569
 BoxCollider2D:
