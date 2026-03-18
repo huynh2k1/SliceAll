@@ -97,6 +97,7 @@ public class GameCtrl : MonoBehaviour
     {
         ChangeState(GameState.NONE);
         _uiCtrl.OnWinGame();
+        _levelCtrl.OnWinGame();
         SoundCtrl.I.PlaySFXByType(TypeSFX.WIN);
     }
 
@@ -121,7 +122,6 @@ public class GameCtrl : MonoBehaviour
 
     public void OnNextGame()
     {
-        _levelCtrl.OnNextGame();
         OnStartGame();
     }
 

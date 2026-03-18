@@ -60,7 +60,7 @@ public class LevelCtrl : MonoBehaviour
         return dataContainer.levels.Max(l => l.OrderId);
     }
 
-    public void OnNextGame()
+    public void OnWinGame()
     {
         if (DataPrefs.CurrentLevel < GetMaxLevelNumber())
         {
